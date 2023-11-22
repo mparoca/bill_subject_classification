@@ -1,3 +1,4 @@
+
 //Create Directory to store project files
 mkdir final_project
 cd final_project
@@ -6,9 +7,28 @@ cd final_project
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 conda create --name final_project python=3.11.5
-conda activate final_project
+
 
 //Install and open vscode
 sudo apt-get update
 sudo snap install --classic code
 code .
+
+//Install python libraries
+conda activate final_project
+conda install -c conda-forge pyspark
+conda install pandas
+conda install scipy
+pip install neo4j
+conda install -c johnsnowlabs spark-nlp
+
+//Verify java Installation
+java -version
+sudo apt-get install openjdk-8-jre //if not installed
+
+//Verify Scala Installation
+scala -version
+sudo apt-get install scala //if not installed
+
+
+
