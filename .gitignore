@@ -1,10 +1,16 @@
-*.sh
+# Credentials
 config.ini
-spark-3.1.2-bin-hadoop3.2.tgz
-spark-3.1.2-bin-hadoop3.2/
+
+# Spark installation
 spark-3.5.0-bin-hadoop3.tgz
 spark-3.5.0-bin-hadoop3/
+
+# Testing
 test.ipynb
+
+# Raw data
 *.zip
 NY_2023-2024_bills.json
+
+# Bert Zero Shot Model files 
 /aloxatel
