@@ -4,6 +4,7 @@ from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 from pyspark.ml import Pipeline, PipelineModel
+import pandas as pd
 
 # Start Spark session with Spark NLP
 spark = SparkSession.builder \
@@ -15,10 +16,10 @@ spark = SparkSession.builder \
 MODEL_NAME = 'aloxatel/bert-base-mnli'
 
 # Candidate labels for bill subjects
-bill_subjects = ["Healthcare", "Education", "Environment", "Economy", "Transportation", 
-                "Technology", "Welfare", "Justice", "Public Safety", 
-                "Agriculture", "Energy", "Labor and Employment", "Budget", "Taxes"
-                "Housing", "Foreign Policy"]
+bill_subjects = ["health", "education", "environment", "transportation",
+                "technology", "security",
+                "agriculture", "employment", "budget", "taxation",
+                "housing", "elections"]
 
 #Load pre-trained ZeroShotClassification model
 zero_shot_classifier = BertForZeroShotClassification.pretrained()\
@@ -33,16 +34,7 @@ zero_shot_classifier_loaded = BertForZeroShotClassification.load("./{}_spark_nlp
     .setInputCols(["document",'token'])\
         .setOutputCol("class")
 
-
-    
-# Load JSON data
-df = spark.read.json('data/filtered/NY_Assembly_bills.json')
-
-
-zero_shot_classifier_loaded = BertForZeroShotClassification.load("./{}_spark_nlp".format(MODEL_NAME))\
-    .setInputCols(["document",'token'])\
-        .setOutputCol("class")
-
+#Spark Pipeline
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
@@ -55,7 +47,21 @@ pipeline = Pipeline(stages=[
     zero_shot_classifier_loaded
 ])
 
-# create a DataFrame in PySpark
+#Read json as a pandas df
+bills_df = pd.read_json('data/filtered/NY_Assembly_bills.json')
+sponsors_df = pd.read_json('data/filtered/NY_Assembly_bill_sponsors.json')
+
+#Execute Pipeline
+text = [[abstract] for abstract in bills_df["title"]]
 inputDataset = spark.createDataFrame(text, ["text"])
 model = pipeline.fit(inputDataset)
-model.transform(inputDataset).select("class.result").show()
+result = model.transform(inputDataset)
+result_df = result.select("class.result").toPandas()
+
+# Merge the results back into the original Pandas DataFrame
+bills_df['subject'] = result_df["result"].str[0]
+
+# Save as csv
+
+
+
