@@ -1,30 +1,16 @@
-
 ################################
 # Setup Steps for news NER     #
 # Ubuntu 22.04                 #
 ################################
 
-## Create Directory to store project files
-mkdir final_project
-cd final_project
-
-## Install Conda for dependency managment
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-conda create --name final_project python=3.11.5
 
 
 ## Install and open vscode
 sudo apt-get update
+sudo apt-get upgrade
+
 sudo snap install --classic code
 code .
-
-## Dowload Apache Spark
-#wget https://archive.apache.org/dist/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz
-#tar -xvzf spark-3.1.2-bin-hadoop3.2.tgz
-wget https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
-tar -xvzf spark-3.5.0-bin-hadoop3.tgz
-
 
 ## Verify java Installation
 java -version
@@ -32,24 +18,33 @@ sudo apt-get install openjdk-8-jre ##if not installed
 
 ## Verify Scala Installation
 scala -version
-sudo apt-get install scala ##if not installed
+curl -s "https://get.sdkman.io" | bash
+source ~/.bashrc
+sdk install scala 2.12.5
+
+
+## Dowload Apache Spark
+wget https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
+tar -xvzf spark-3.5.0-bin-hadoop3.tgz
+ 
 
 ## Add PATH environment
 nano ~/.bash_aliases
 #Add the following lines
-export SPARK_HOME=~/news_NER/spark-3.5.0-bin-hadoop3
-export JAVA_HOME =/usr/lib/jvm/java-11-openjdk-amd64
+export SPARK_HOME=~/tools/spark-3.5.0-bin-hadoop3
+export JAVA_HOME =/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:$JAVA_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 #Update and verify
 source ~/.bashrc
 echo $SPARK_HOME
 echo $JAVA_HOME
 
-## Install python libraries
-conda activate final_project
-conda install -c conda-forge pyspark
-conda install pandas
-conda install scipy
+## Install Conda for dependency managment
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+conda create -n pyspark_env
+conda activate pyspark_env
+conda install -c conda-forge pyspark python=3.11.5 pandas scipy
 pip install neo4j
 conda install -c johnsnowlabs spark-nlp
 
