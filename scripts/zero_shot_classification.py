@@ -62,6 +62,7 @@ result_df = result.select("class.result").toPandas()
 bills_df['subject'] = result_df["result"].str[0]
 
 # Save as csv
-
+bills_df.to_csv('data/processed/NY_Assembly_bills_with_subjects.csv', index=False)
+sponsor_df.to_csv('data/processed/NY_Assembly_bill_sponsors.csv', index=False)
 
 
