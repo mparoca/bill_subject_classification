@@ -12,5 +12,5 @@ test.ipynb
 *.zip
 NY_2023-2024_bills.json
 
-# Bert Zero Shot Model files 
+# Bert Zero Shot Classifier Model files 
 /aloxatel
