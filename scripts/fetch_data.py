@@ -16,9 +16,22 @@ with open(zip_file_path, 'wb') as file:
     file.write(response.content)
 print("Download completed.")
 
-# Unzip the file
+# Unzipping the file and flattening the directory structure
+zip_file_path = os.path.join(raw_data_dir, 'NY_2023-2024.zip')
 print("Unzipping the file...")
+
 with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-    zip_ref.extractall(raw_data_dir)
+    # Iterate over each file in the ZIP
+    for file_info in zip_ref.infolist():
+        # Extract only the name of the file (discard the folder structure)
+        filename = os.path.basename(file_info.filename)
+        # Check if it's not a directory
+        if filename:
+            # Extract the file to the desired directory
+            source = zip_ref.open(file_info.filename)
+            target = open(os.path.join(raw_data_dir, filename), "wb")
+            with source, target:
+                target.write(source.read())
+
 print("Unzipping completed.")
 
