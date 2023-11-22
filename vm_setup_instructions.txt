@@ -1,0 +1,14 @@
+//Create Directory to store project files
+mkdir final_project
+cd final_project
+
+//Install Conda for dependency managment
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+conda create --name final_project python=3.11.5
+conda activate final_project
+
+//Install and open vscode
+sudo apt-get update
+sudo snap install --classic code
+code .
