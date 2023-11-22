@@ -52,7 +52,7 @@ bills_df = pd.read_json('data/filtered/NY_Assembly_bills.json')
 sponsors_df = pd.read_json('data/filtered/NY_Assembly_bill_sponsors.json')
 
 #Execute Pipeline
-text = [[abstract] for abstract in bills_df["title"]]
+text = [[abstract] for abstract in bills_df["abstract"]]
 inputDataset = spark.createDataFrame(text, ["text"])
 model = pipeline.fit(inputDataset)
 result = model.transform(inputDataset)
