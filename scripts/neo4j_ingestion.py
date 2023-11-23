@@ -60,7 +60,7 @@ class CreateBillGDB:
             UNWIND $rows AS row
             MERGE (b:Bill {id: row.bill_id})
             ON CREATE SET b.name = row.bill_name, b.title = row.title
-            MERGE (s:subject {id: row.subject})
+            MERGE (s:subject {name: row.subject})
             MERGE (b)-[:HAS_SUBJECT]->(s)
         '''
         self.query(bill_query, parameters = {'rows': data.to_dict('records')})
