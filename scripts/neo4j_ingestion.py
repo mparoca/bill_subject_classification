@@ -85,8 +85,8 @@ class CreateBillGDB:
             UNWIND $rows AS row
             MERGE (l:Legislator {name: row.sponsor_name})
             WITH row, l
-            OPTIONAL MATCH (b:Bill {id: row.bill_id})
-            MERGE (l)-[:IS_SPONSOR]->(b)
+            OPTIONAL MATCH (bi:Bill {id: row.bill_id})
+            MERGE (l)-[:IS_SPONSOR]->(bi)
         '''
         self.query(legislator_query, parameters = {'rows': data.to_dict('records')})
     
@@ -129,8 +129,8 @@ def main():
     
     path_to_data = 'data/processed/'
     
-    gdb.process_legislators_in_batches(path_to_data, 'NY_Assembly_bill_sponsors.csv', batch_size = 2000)
     gdb.process_bills_in_batches(path_to_data, 'NY_Assembly_bills_with_subjects.csv', batch_size = 2000)
+    gdb.process_legislators_in_batches(path_to_data, 'NY_Assembly_bill_sponsors.csv', batch_size = 2000)
     
 if __name__ == '__main__':
     main()
