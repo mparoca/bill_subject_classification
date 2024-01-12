@@ -4,7 +4,7 @@
 This repository contains the code and documentation for a data processing and analysis pipeline focused on legislative bill data from OpenStates. The project aims to categorize bills from the New York State Assembly session 2022-2023 into distinct subject and load the results into a Neo4j graph database. 
 
 ## Data Source
-The data is sourced from [OpenStates](https://youtu.be/zAelmnIXTAg](https://open.pluralpolicy.com/data/session-csv/)), focusing on the latest NYS Assembly session. The dataset includes bill identifiers, titles, abstracts, names, and sponsoring legislators. The data was bulk downloaded to overcome API request limitations.
+The data is sourced from [OpenStates](https://open.pluralpolicy.com/data/session-csv/), focusing on the latest NYS Assembly session. The dataset includes bill identifiers, titles, abstracts, names, and sponsoring legislators. The data was bulk downloaded to overcome API request limitations.
 
 ## Pipeline Components
 1. `fetch_data.py`  - Downloads and stores legislative data in `data/raw`
